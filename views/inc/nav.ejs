@@ -1,0 +1,148 @@
+<!-- Navbar-->
+<header class="app-header">
+    <!-- Sidebar toggle button-->
+    <a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+    <!-- Navbar Right Menu-->
+    <ul class="app-nav">
+        <!-- User Menu-->
+        <!-- <li>
+            <a href="/staff/1/setting">
+                <button class="app-nav__item" type="button"
+                style="margin: 0; padding: 8px;" title="Cài đặt">
+                <i class='bx bx-cog'></i>
+            </button>
+            </a>
+        </li> -->
+        <li>
+            <button class="app-nav__item" type="button" data-bs-toggle="modal" data-bs-target="#logoutModal"
+                style="margin: 0; padding: 8px;" title="Đăng Xuất!">
+                <i class='bx bx-log-out bx-rotate-180'></i>
+            </button>
+        </li>
+    </ul>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="color: black;">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận</h5>
+                    <button type="button"  data-bs-dismiss="modal" ><i class="fa fa-times" aria-hidden="true"></i></button>
+                </div>
+                <form action="/home/logout" method="POST" id="formDelete">
+                    <input type="hidden">
+                        <div class="modal-body">
+                            Bạn có chắc muốn đăng xuất?
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-danger" id="confirmDeleteBtn">Ok</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Sidebar menu-->
+<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+<!-- thanh slide menu bên trái -->
+<aside class="app-sidebar">
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar"
+        <% if(req.session.staffLogin.image != null ){ %>
+            src="<%= req.session.staffLogin.image %>"
+                <% }else{ %>
+                    
+         src="/images/logo_app.png"
+        <% } %>
+            width="50px"
+            height="70px"
+            alt="User Image">
+        <div>
+            <p class="app-sidebar__user-name"><b>
+                  
+                        <%= req.session.staffLogin.fullname %>
+                </b></p>
+            <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
+        </div>
+    </div>
+    <hr>
+    <!-- thanh bảng menu -->
+    <ul class="app-menu">
+      
+        <li><a class="app-menu__item" href="/home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="currentColor"
+                    class="bi bi-house-door" viewBox="0 0 16 16">
+                    <path
+                        d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146ZM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5Z" />
+                </svg>
+                <span class="app-menu__label" style="margin-left: 15px; margin-top: 5px;">Trang chủ</span>
+        </a></li>
+
+        <li><a class="app-menu__item " href="/staff/1">
+            <i class='app-menu__icon bx bx-id-card'></i>
+                 <span class="app-menu__label">Quản lý nhân viên</span>
+                 </a>
+        </li>
+        <li><a class="app-menu__item " href="/user/1">
+            <i class='app-menu__icon bx bx-id-card'></i>
+                 <span class="app-menu__label">Quản lý khách hàng</span>
+                 </a>
+        </li>
+        <li><a class="app-menu__item " href="/loand/1">
+            <i class='app-menu__icon bx bx-id-card'></i>
+                 <span class="app-menu__label">Quản lý phiếu vay</span>
+                 </a>
+        </li>
+        
+    </ul>
+</aside>
+<script>
+    setTimeout(function () {
+        document.getElementById('my-message-div').style.display = 'none';
+    }, 2000);
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuItems = document.querySelectorAll('.app-menu__item');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                // Kiểm tra xem menu item hiện tại đã có lớp 'active' chưa
+                const isActive = this.classList.contains('active');
+
+                // Nếu chưa có lớp 'active', thì thêm vào
+                if (!isActive) {
+                    // Loại bỏ lớp 'active' từ tất cả các menu item trước đó
+                    menuItems.forEach(menuItem => {
+                        menuItem.classList.remove('active');
+                    });
+
+                    // Thêm lớp 'active' cho menu item được click
+                    this.classList.add('active');
+
+                    // Lấy href của menu item để chuyển tab
+                    const href = this.getAttribute('href');
+                    window.location.href = href;
+                }
+            });
+        });
+    });
+</script>
+
+<style>#my-message-div {
+    position: fixed;
+    font-size: 30px;
+    color: black;
+    width: 150px;
+    text-align: center;
+    border-radius: 50px;
+    background-color: aqua;
+  }
+  /* CSS cho màu nền khi tab được chọn */
+/* .app-menu__item.active {
+    background-color: #007bff;
+    color: #fff; 
+} */
+
+  </style>
